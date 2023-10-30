@@ -12,7 +12,9 @@ const SECRET_KEY = process.env.SECRET_KEY;
 const registerUser = async (req, res) => {
 	try {
 		const { name, email, password, tc } = req.body;
+		console.log(name, email, password, tc);
 		if (!name || !email || !password || tc === undefined) {
+			console.log("failed1")
 			return res
 				.status(400)
 				.json({ status: "failed", message: "Please provide all the fields" });
@@ -20,12 +22,14 @@ const registerUser = async (req, res) => {
 
 		const existingUser = await userModel.findOne({ email: email });
 		if (existingUser) {
+			console.log("failed2")
 			return res
 				.status(400)
-				.json({ status: "failed", message: "Email already exists" });
+				.json({ status: "failed3", message: "Email already exists" });
 		}
 
 		if (password.length < 8) {
+			console.log("failed3")
 			res
 				.status(400)
 				.json({ status: "failed", message: "Password is too short..." });
@@ -40,6 +44,7 @@ const registerUser = async (req, res) => {
 		});
 
 		await newUser.save();
+		console.log("success1")
 		res
 			.status(201)
 			.json({ status: "success", message: "Registration successful" });
