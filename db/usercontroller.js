@@ -14,7 +14,7 @@ const registerUser = async (req, res) => {
 		const { name, email, password, tc } = req.body;
 		console.log(name, email, password, tc);
 		if (!name || !email || !password || tc === undefined) {
-			console.log("failed1")
+			console.log("failed")
 			return res
 				.status(400)
 				.json({ status: "failed", message: "Please provide all the fields" });
@@ -22,14 +22,14 @@ const registerUser = async (req, res) => {
 
 		const existingUser = await userModel.findOne({ email: email });
 		if (existingUser) {
-			console.log("failed2")
+			console.log("failed")
 			return res
 				.status(400)
-				.json({ status: "failed3", message: "Email already exists" });
+				.json({ status: "failed", message: "Email already exists" });
 		}
 
 		if (password.length < 8) {
-			console.log("failed3")
+			console.log("failed")
 			res
 				.status(400)
 				.json({ status: "failed", message: "Password is too short..." });
@@ -57,6 +57,7 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
 	try {
 		const { email, password } = req.body;
+		console.log(email,password);
 		if (email === undefined || password === undefined) {
 			res
 				.status(400)
